@@ -940,7 +940,8 @@ class Key(object):
             if size is not None:
                 kwargs['size'] = size
             headers['_sha256'] = compute_hash(**kwargs)[0]
-        headers['Expect'] = '100-Continue'
+        # See: https://github.com/boto/boto/issues/840
+        # headers['Expect'] = '100-Continue'
         headers = boto.utils.merge_meta(headers, self.metadata, provider)
         resp = self.bucket.connection.make_request(
             'PUT',
